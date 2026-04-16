@@ -24,9 +24,9 @@ export default async function AssetPage({ params }: { params: Promise<{ chain: s
   const today = new Date().toISOString().slice(0, 10);
   const regimeLabel =
     asset.issuanceRegime === "None"
-      ? `No MiCA authorization · issuer not registered with ESMA as of ${today}`
+      ? `No MiCA authorization found in ESMA register as of ${today}`
       : asset.issuanceRegime === "DABA"
-      ? `DABA (issuer licensed by BMA)`
+      ? `DABA (issuer licensed by Bermuda Monetary Authority)`
       : `${asset.issuanceRegime} (${asset.issuerEntity.legalName})`;
 
   return (

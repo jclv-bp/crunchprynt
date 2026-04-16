@@ -140,6 +140,15 @@ async function main() {
         issuanceRegime: "None",
         relatedGroupId: "usdc-branded",
       },
+      {
+        chain: "ethereum",
+        address: "0x1aBaEA1f7C830bD89Acc67eC4af516284b1bC33c",
+        symbol: "EURC",
+        name: "Euro Coin",
+        issuerEntityId: circleEU.id,
+        issuanceRegime: "MiCA-EMT",
+        relatedGroupId: "eurc-branded",
+      },
     ],
   });
 

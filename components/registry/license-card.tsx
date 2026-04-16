@@ -25,7 +25,7 @@ export function LicenseCard(p: Props) {
     p.source === "esma_mica_register"
       ? `Source: ESMA MiCA Register · updated ${updated}`
       : p.source === "bma_manual"
-      ? `Source: BMA · manually verified by ${p.reviewerName} on ${p.reviewerVerifiedAt?.toISOString().slice(0, 10)}`
+      ? `Source: Bermuda Monetary Authority · manually verified by ${p.reviewerName} on ${p.reviewerVerifiedAt?.toISOString().slice(0, 10)}`
       : `Source: uploaded by issuer · hash verified but content not independently confirmed`;
   return (
     <div className={`bg-white border border-black/10 border-l-4 ${accent[p.source]} p-6`}>

@@ -89,6 +89,28 @@ export async function commitImport(
     }
     if (!entityId) continue;
     const li = d.licenseIncoming;
+    const existing = await db.license.findFirst({
+      where: {
+        entityId,
+        source: "esma_mica_register",
+        licenseType: li.licenseType,
+        licenseReference: li.licenseReference ?? null,
+      },
+    });
+    if (existing) {
+      await db.license.update({
+        where: { id: existing.id },
+        data: {
+          regulator: li.regulator,
+          jurisdictionCountry: li.jurisdictionCountry,
+          permittedActivities: JSON.stringify(li.permittedActivities ?? []),
+          passporting: JSON.stringify(li.passporting ?? []),
+          sourceRetrievedAt: new Date(li.sourceRetrievedAt),
+          importBatchId: batch.id,
+        },
+      });
+      continue;
+    }
     await db.license.create({
       data: {
         entityId,
