@@ -38,7 +38,7 @@ export default async function EntityPage({ params }: { params: Promise<{ slug: s
             Jurisdiction: {full.jurisdictionCountry}
             {full.jurisdictionSubdivision ? ` (${full.jurisdictionSubdivision})` : ""}
           </span>
-          {full.lei && <span>LEI: <span className="font-mono">{full.lei}</span></span>}
+          {full.lei && <span>LEI: <span className="font-mono break-all">{full.lei}</span></span>}
           {full.registrationNumber && <span>Reg. no: {full.registrationNumber}</span>}
           <span className="inline-flex items-center px-2 py-0.5 text-[10px] tracking-[0.15em] font-semibold bg-blue-50 text-accent-blue">
             KYB · VERIFIED
@@ -88,8 +88,8 @@ export default async function EntityPage({ params }: { params: Promise<{ slug: s
             <ul className="space-y-2 text-sm">
               {full.controlledWallets.map(w => (
                 <li key={w.id} className="bg-white border border-black/10 px-4 py-3 flex flex-wrap justify-between gap-2">
-                  <span className="font-mono">{w.chain} · {w.address}</span>
-                  {w.attestationRef && <span className="text-black/40 text-xs">{w.attestationRef}</span>}
+                  <span className="font-mono text-xs break-all min-w-0">{w.chain} · {w.address}</span>
+                  {w.attestationRef && <span className="text-black/40 text-xs break-all">{w.attestationRef}</span>}
                 </li>
               ))}
             </ul>
