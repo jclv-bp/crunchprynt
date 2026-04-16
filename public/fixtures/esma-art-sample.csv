@@ -1,3 +1,3 @@
-LEI,Legal Name,Home Member State,Competent Authority,Authorisation Date,Token Name,Token Symbol,Passporting Member States
-213800EXAMPLEARTENT1,Example ART Issuer AG,DE,BaFin,2025-01-20,xART,XART,"DE,AT,NL"
-529900ARTENT123ABCD9,Another ART Issuer SA,ES,CNMV,2025-03-05,iART,IART,"ES,PT,IT"
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_commercial_name,ae_website,ac_authorisationNotificationDate,wp_url
+BaFin,DE,Example ART Issuer AG,213800EXAMPLEARTENT1,xART,https://example-art.de/,20/01/2025,https://example-art.de/whitepaper.pdf
+CNMV,ES,Another ART Issuer SA,529900ARTENT123ABCD9,iART,https://another-art.es/,05/03/2025,https://another-art.es/whitepaper.pdf

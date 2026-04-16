@@ -1,3 +1,3 @@
-LEI,Issuer Legal Name,Home Member State,Notification Date,Token Name,Token Symbol,White Paper URL
-549300WHITEPAPER1234,Sample Token Issuer BV,NL,2025-03-12,SampleToken,STK,https://example.com/whitepaper.pdf
-213800WHITEPAPER56AB,Utility Token Co,FR,2025-05-01,UTKN,UTKN,https://example.com/utkn-whitepaper.pdf
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_commercial_name,wp_url,wp_authorisationNotificationDate,wp_comments
+AFM,NL,Sample Token Issuer BV,549300WHITEPAPER1234,SampleToken,https://example.com/whitepaper.pdf,12/03/2025,Initial notification
+AMF,FR,Utility Token Co,213800WHITEPAPER56AB,UTKN,https://example.com/utkn-whitepaper.pdf,01/05/2025,Initial notification

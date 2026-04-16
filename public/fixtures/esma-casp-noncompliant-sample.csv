@@ -1,3 +1,3 @@
-Legal Name,Country,Notice Date,Summary
-Unlicensed Crypto Ltd,MT,2025-06-01,Operating without authorisation
-Dodgy Exchange LLC,CY,2025-07-15,Not registered as CASP despite active operations
+ae_competentAuthority,ae_country,ae_name,ac_noticeDate,ae_summary
+MFSA,MT,Unlicensed Crypto Ltd,01/06/2025,Operating without authorisation
+CySEC,CY,Dodgy Exchange LLC,15/07/2025,Not registered as CASP despite active operations

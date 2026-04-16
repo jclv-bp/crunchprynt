@@ -29,12 +29,12 @@ describe("reconcileRows", () => {
   it("matches on LEI", async () => {
     const rows = [
       {
-        LEI: lei,
-        "Legal Name": "TestCo EU S.A.",
-        "Home Member State": "FR",
-        "Competent Authority": "AMF",
-        "Authorisation Date": new Date("2024-07-01"),
-        "Passporting Member States": [],
+        ae_lei: lei,
+        ae_lei_name: "TestCo EU S.A.",
+        ae_homeMemberState: "FR",
+        ae_competentAuthority: "AMF",
+        ac_authorisationNotificationDate: new Date("2024-07-01"),
+        ae_authorisation_other_emt: "Electronic money institution",
       },
     ];
     const diffs = await reconcileRows(rows, "emt", new Date());
@@ -45,16 +45,32 @@ describe("reconcileRows", () => {
   it("creates new when LEI unknown", async () => {
     const rows = [
       {
-        LEI: "UNKNOWN00000000000XX",
-        "Legal Name": "Other S.A.",
-        "Home Member State": "DE",
-        "Competent Authority": "BaFin",
-        "Authorisation Date": new Date("2024-07-01"),
-        "Passporting Member States": [],
+        ae_lei: "UNKNOWN00000000000XX",
+        ae_lei_name: "Other S.A.",
+        ae_homeMemberState: "DE",
+        ae_competentAuthority: "BaFin",
+        ac_authorisationNotificationDate: new Date("2024-07-01"),
       },
     ];
     const diffs = await reconcileRows(rows, "emt", new Date());
     expect(diffs[0].matchKind).toBe("none");
     expect(diffs[0].matchedEntityId).toBeNull();
+  });
+
+  it("extracts permitted activities from ae_authorisation_other_emt", async () => {
+    const rows = [
+      {
+        ae_lei: lei,
+        ae_lei_name: "TestCo EU S.A.",
+        ae_homeMemberState: "FR",
+        ae_competentAuthority: "AMF",
+        ac_authorisationNotificationDate: new Date("2024-07-01"),
+        ae_authorisation_other_emt: "Electronic money institution",
+      },
+    ];
+    const diffs = await reconcileRows(rows, "emt", new Date());
+    expect(diffs[0].licenseIncoming.permittedActivities).toEqual([
+      "Electronic money institution",
+    ]);
   });
 });

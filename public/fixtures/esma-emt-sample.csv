@@ -1,3 +1,3 @@
-LEI,Legal Name,Home Member State,Competent Authority,Authorisation Date,Token Name,Token Symbol,Passporting Member States
-549300XFFE1Z1R9ZDY90,Circle Internet Financial Europe SAS,FR,AMF,2024-07-01,EURC,EURC,"FR,DE,IE,NL"
-549300A7ABCDEF123456,Paxos Issuance Europe OÜ,EE,Finantsinspektsioon,2024-10-15,pyUSD,pyUSD,"EE,FI,IE,NL"
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_lei_cou_code,ae_commercial_name,ae_address,ae_website,ac_authorisationNotificationDate,ac_authorisationEndDate,ae_exemption48_4,ae_exemption48_5,ae_authorisation_other_emt,ae_DTI_FFG,ae_DTI,wp_url,wp_authorisationNotificationDate,wp_comments,wp_lastupdate
+AMF,FR,Circle Internet Financial Europe SAS,549300XFFE1Z1R9ZDY90,FR,Circle,"Paris, France",https://www.circle.com/,01/07/2024,,No,No,Electronic money institution,,,https://www.circle.com/whitepaper-usdc.pdf,01/07/2024,Initial MiCA EMT authorisation for USDC,10/04/2026
+Finantsinspektsioon,EE,Paxos Issuance Europe OÜ,549300A7ABCDEF123456,EE,Paxos,"Tallinn, Estonia",https://paxos.com/,15/10/2024,,No,No,Electronic money institution,,,https://paxos.com/whitepaper-pyusd.pdf,15/10/2024,Initial MiCA EMT authorisation for pyUSD,10/04/2026

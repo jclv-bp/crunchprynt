@@ -21,6 +21,40 @@ export type EntityDiff = {
   fieldDiffs: { field: string; before: string | null; after: string | null }[];
 };
 
+function extract(fileType: EsmaFileType, r: Record<string, any>) {
+  if (fileType === "casp_noncompliant") {
+    return {
+      lei: null as string | null,
+      legalName: r.ae_name ?? null,
+      homeState: r.ae_country ?? null,
+      regulator: r.ae_competentAuthority ?? "ESMA",
+      licenseType: "MiCA non-compliant CASP notice",
+      permitted: [] as string[],
+      passporting: [] as string[],
+    };
+  }
+  const licenseType =
+    fileType === "emt" ? "MiCA EMT authorization"
+    : fileType === "art" ? "MiCA ART authorization"
+    : fileType === "casp_authorized" ? "MiCA CASP authorization"
+    : "MiCA white paper notification";
+  const permitted: string[] = Array.isArray(r.ae_services_authorised)
+    ? r.ae_services_authorised
+    : r.ae_authorisation_other_emt
+      ? [r.ae_authorisation_other_emt]
+      : [];
+  const passporting: string[] = Array.isArray(r.ae_passporting) ? r.ae_passporting : [];
+  return {
+    lei: r.ae_lei ?? null,
+    legalName: r.ae_lei_name ?? null,
+    homeState: r.ae_homeMemberState ?? null,
+    regulator: r.ae_competentAuthority ?? "ESMA",
+    licenseType,
+    permitted,
+    passporting,
+  };
+}
+
 export async function reconcileRows(
   rows: unknown[],
   fileType: EsmaFileType,
@@ -30,45 +64,25 @@ export async function reconcileRows(
   const diffs: EntityDiff[] = [];
   for (const raw of rows) {
     const r = raw as Record<string, any>;
-    const lei = r.LEI ?? null;
-    const legalName = r["Legal Name"] ?? r["Issuer Legal Name"] ?? null;
-    const homeState = r["Home Member State"] ?? r.Country ?? null;
-    const matched = lei
-      ? await db.entity.findUnique({ where: { lei } })
-      : null;
-    const licenseType =
-      fileType === "emt"
-        ? "MiCA EMT authorization"
-        : fileType === "art"
-          ? "MiCA ART authorization"
-          : fileType === "casp_authorized"
-            ? "MiCA CASP authorization"
-            : fileType === "casp_noncompliant"
-              ? "MiCA non-compliant CASP notice"
-              : "MiCA white paper notification";
-    const permitted: string[] = Array.isArray(r["Services Authorised"])
-      ? r["Services Authorised"]
-      : [];
-    const passporting: string[] = Array.isArray(r["Passporting Member States"])
-      ? r["Passporting Member States"]
-      : [];
+    const ex = extract(fileType, r);
+    const matched = ex.lei ? await db.entity.findUnique({ where: { lei: ex.lei } }) : null;
     diffs.push({
       matchedEntityId: matched?.id ?? null,
       matchKind: matched ? "lei" : "none",
       licenseIncoming: {
         source: "esma_mica_register",
-        regulator: r["Competent Authority"] ?? "ESMA",
-        jurisdictionCountry: homeState,
-        licenseType,
-        licenseReference: lei,
-        permittedActivities: permitted,
-        passporting,
+        regulator: ex.regulator,
+        jurisdictionCountry: ex.homeState,
+        licenseType: ex.licenseType,
+        licenseReference: ex.lei,
+        permittedActivities: ex.permitted,
+        passporting: ex.passporting,
         sourceRetrievedAt: retrievedAt,
       },
-      entityIncoming: legalName
-        ? { legalName, lei, jurisdictionCountry: homeState }
+      entityIncoming: ex.legalName
+        ? { legalName: ex.legalName, lei: ex.lei, jurisdictionCountry: ex.homeState }
         : null,
-      fieldDiffs: computeFieldDiffs(matched, legalName),
+      fieldDiffs: computeFieldDiffs(matched, ex.legalName),
     });
   }
   return diffs;
@@ -80,9 +94,7 @@ function computeFieldDiffs(
 ) {
   if (!matched || !incomingName) return [];
   if (matched.legalName !== incomingName) {
-    return [
-      { field: "legalName", before: matched.legalName, after: incomingName },
-    ];
+    return [{ field: "legalName", before: matched.legalName, after: incomingName }];
   }
   return [];
 }

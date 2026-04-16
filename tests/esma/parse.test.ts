@@ -28,8 +28,19 @@ describe("parseEsmaCsv", () => {
   });
   it("flags malformed LEIs", () => {
     const bad =
-      "LEI,Legal Name,Home Member State,Competent Authority,Authorisation Date\nXX,Test,FR,AMF,2024-01-01";
+      "ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ac_authorisationNotificationDate\nAMF,FR,Test,XX,01/01/2024";
     const r = parseEsmaCsv(bad, "emt");
     expect(r.ok).toBe(false);
+  });
+  it("parses DD/MM/YYYY dates correctly", () => {
+    const r = parseEsmaCsv(
+      readFileSync(path.join(process.cwd(), "public/fixtures/esma-emt-sample.csv"), "utf8"),
+      "emt",
+    );
+    expect(r.ok).toBe(true);
+    if (r.ok) {
+      const first = r.rows[0] as { ac_authorisationNotificationDate: Date };
+      expect(first.ac_authorisationNotificationDate.toISOString().slice(0, 10)).toBe("2024-07-01");
+    }
   });
 });

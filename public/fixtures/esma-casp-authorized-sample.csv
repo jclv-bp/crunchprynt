@@ -1,3 +1,3 @@
-LEI,Legal Name,Home Member State,Competent Authority,Authorisation Date,Services Authorised,Passporting Member States
-391200CASPFIRMAAAA01,Example CASP BV,NL,AFM,2025-02-10,"CASP-1,CASP-3,CASP-5","NL,BE,DE"
-529900SECONDCASPXYZ7,Second CASP Sp. z o.o.,PL,KNF,2025-04-22,"CASP-2,CASP-6","PL,LT"
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_commercial_name,ac_authorisationNotificationDate,ae_services_authorised,ae_passporting
+AFM,NL,Example CASP BV,391200CASPFIRMAAAA01,Example CASP,10/02/2025,"CASP-1,CASP-3,CASP-5","NL,BE,DE"
+KNF,PL,Second CASP Sp. z o.o.,529900SECONDCASPXYZ7,Second CASP,22/04/2025,"CASP-2,CASP-6","PL,LT"
