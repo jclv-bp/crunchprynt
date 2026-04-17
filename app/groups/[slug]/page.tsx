@@ -95,9 +95,7 @@ export default async function GroupPage({ params }: { params: Promise<{ slug: st
                       <div className="flex flex-wrap items-start justify-between gap-3">
                         <div>
                           <p className="text-xs font-semibold tracking-[0.15em] text-black/60">ASSET FAMILY</p>
-                          <h3 className="mt-2 text-xl font-semibold">
-                            {assetGroup.symbol} · {assetGroup.name}
-                          </h3>
+                          <h3 className="mt-2 text-xl font-semibold">{assetGroup.symbol} · {assetGroup.name}</h3>
                         </div>
                         <p className="text-xs font-semibold tracking-[0.15em] text-black/50">
                           {assetGroup.chains.length} {assetGroup.chains.length === 1 ? "CHAIN" : "CHAINS"}
@@ -108,6 +106,15 @@ export default async function GroupPage({ params }: { params: Promise<{ slug: st
                       </p>
                       <p className="mt-2 text-sm text-black/70">
                         Chains: <span className="text-black">{assetGroup.chains.join(", ")}</span>
+                      </p>
+                      <p className="mt-2 text-sm text-black/70">
+                        Family profile:{" "}
+                        <Link
+                          href={`/assets/family/${assetGroup.deployments[0]?.issuerEntityId ?? entities.find((entity) => entity.issuedAssets.some((asset) => asset.symbol === assetGroup.symbol))?.slug ?? ""}/${assetGroup.familySlug}`}
+                          className="text-accent-blue underline-offset-4 hover:underline"
+                        >
+                          View consolidated asset profile
+                        </Link>
                       </p>
                       <ul className="mt-4 space-y-2">
                         {assetGroup.deployments.map((deployment) => (

@@ -1,4 +1,4 @@
-import { db } from "./db";
+import { assetFamilySlug } from "./assets";
 
 type AssetLike = {
   id: string;
@@ -10,6 +10,7 @@ type AssetLike = {
 };
 
 export async function groupSummary(groupId: string) {
+  const { db } = await import("./db");
   const entities = await db.entity.findMany({
     where: { groupId },
     include: { licenses: true, issuedAssets: true },
@@ -36,6 +37,7 @@ export function groupAssetsBySymbol<T extends AssetLike>(assets: T[]) {
     {
       symbol: string;
       name: string;
+      familySlug: string;
       issuanceRegime: string;
       deployments: T[];
       chains: string[];
@@ -53,6 +55,7 @@ export function groupAssetsBySymbol<T extends AssetLike>(assets: T[]) {
     grouped.set(asset.symbol, {
       symbol: asset.symbol,
       name: asset.name,
+      familySlug: assetFamilySlug(asset.symbol, asset.name),
       issuanceRegime: asset.issuanceRegime,
       deployments: [asset],
       chains: [asset.chain],

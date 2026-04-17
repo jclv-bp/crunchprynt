@@ -11,6 +11,8 @@ import {
   VerificationTimeline,
 } from "@/components/registry/verification-panels";
 
+export const runtime = "nodejs";
+
 export default async function AssetPage({ params }: { params: Promise<{ chain: string; address: string }> }) {
   const { chain, address } = await params;
   const asset = await db.asset.findUnique({

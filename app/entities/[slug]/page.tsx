@@ -385,7 +385,12 @@ export default async function EntityPage({ params }: { params: Promise<{ slug: s
                         <div>
                           <p className="text-xs font-semibold tracking-[0.15em] text-black/60">ASSET FAMILY</p>
                           <h3 className="mt-2 text-xl font-semibold">
-                            {assetGroup.symbol} · {assetGroup.name}
+                            <Link
+                              href={`/assets/family/${full.slug}/${assetGroup.familySlug}`}
+                              className="underline-offset-4 hover:text-accent-blue hover:underline focus-visible:outline-none focus-visible:underline"
+                            >
+                              {assetGroup.symbol} · {assetGroup.name}
+                            </Link>
                           </h3>
                         </div>
                         <p className="text-xs font-semibold tracking-[0.15em] text-black/50">
@@ -394,6 +399,15 @@ export default async function EntityPage({ params }: { params: Promise<{ slug: s
                       </div>
                       <p className="mt-3 text-sm text-black/70">
                         Regime: <span className="font-medium text-black">{assetGroup.issuanceRegime}</span>
+                      </p>
+                      <p className="mt-2 text-sm text-black/70">
+                        Family profile:{" "}
+                        <Link
+                          href={`/assets/family/${full.slug}/${assetGroup.familySlug}`}
+                          className="text-accent-blue underline-offset-4 hover:underline"
+                        >
+                          View consolidated asset profile
+                        </Link>
                       </p>
                       <ul className="mt-4 space-y-2">
                         {assetGroup.deployments.map((deployment) => (
