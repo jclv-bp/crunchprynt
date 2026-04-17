@@ -1,3 +1,3 @@
-ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_commercial_name,ac_authorisationNotificationDate,ae_services_authorised,ae_passporting
-AFM,NL,Example CASP BV,391200CASPFIRMAAAA01,Example CASP,10/02/2025,"CASP-1,CASP-3,CASP-5","NL,BE,DE"
-KNF,PL,Second CASP Sp. z o.o.,529900SECONDCASPXYZ7,Second CASP,22/04/2025,"CASP-2,CASP-6","PL,LT"
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_lei_cou_code,ae_commercial_name,ae_address,ae_website,ae_website_platform,ac_authorisationNotificationDate,ac_authorisationEndDate,ac_serviceCode,ac_serviceCode_cou,ac_comments,ac_lastupdate
+Autoriteit Financiële Markten (AFM),NL,Example CASP BV,391200CASPFIRMAAAA01,NL,Example CASP,"Amsterdam, Netherlands",https://example-casp.nl,,10/02/2025,,a. providing custody and administration of crypto-assets on behalf of clients | c. exchange of crypto-assets for funds | j. providing transfer services for crypto-assets on behalf of clients,NL|BE|DE,,12/02/2025
+Komisja Nadzoru Finansowego (KNF),,Second CASP Sp. z o.o.,,PL,Second CASP,"Warsaw, Poland",https://second-casp.pl,,22/04/2025,,b. operation of a trading platform for crypto-assets | e. execution of orders for crypto-assets on behalf of clients,PL|LT,,24/04/2025

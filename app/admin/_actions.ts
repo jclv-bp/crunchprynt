@@ -43,8 +43,12 @@ export async function deleteGroup(id: string) {
 function normalizeEntity(input: Record<string, any>) {
   // Empty-string LEI => omit so the unique constraint doesn't collide across multiple empty entities.
   if (input.lei === "") delete input.lei;
+  if (input.website === "") delete input.website;
+  if (input.profileSummary === "") delete input.profileSummary;
   if (input.jurisdictionSubdivision === "") delete input.jurisdictionSubdivision;
   if (input.registrationNumber === "") delete input.registrationNumber;
+  if (input.claimPageNote === "") delete input.claimPageNote;
+  if (input.kyiReviewedAt === "") delete input.kyiReviewedAt;
   if (input.coverageLimitationNote === "") delete input.coverageLimitationNote;
   return input;
 }
@@ -120,7 +124,7 @@ export async function createLicense(payload: string) {
     status: parsed.status,
     reviewerName: "reviewerName" in parsed ? parsed.reviewerName : null,
     reviewerVerifiedAt: "reviewerVerifiedAt" in parsed ? parsed.reviewerVerifiedAt : null,
-    documentPath: "documentPath" in parsed ? parsed.documentPath : null,
+    documentPath: "documentPath" in parsed ? parsed.documentPath || null : null,
     documentHash: "documentHash" in parsed ? parsed.documentHash : null,
   };
   const created = await db.license.create({ data: storable as any });

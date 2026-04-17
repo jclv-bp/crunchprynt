@@ -14,6 +14,7 @@ export const licenseMica = common.extend({
   sourceRetrievedAt: z.coerce.date(),
   permittedActivities: z.array(z.string()).default([]),
   passporting: z.array(z.string()).default([]),
+  documentPath: z.string().optional().or(z.literal("")),
 });
 
 export const licenseBma = common.extend({

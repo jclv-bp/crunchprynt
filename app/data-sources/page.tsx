@@ -24,7 +24,7 @@ export default function DataSources() {
   return (
     <>
       <SiteHeader />
-      <main className="max-w-[900px] mx-auto px-8 py-16">
+      <main id="main-content" className="max-w-[900px] mx-auto px-6 py-16 md:px-8">
         <p className="text-xs tracking-[0.15em] text-black/60 font-semibold">METHODOLOGY</p>
         <h1 className="text-5xl font-semibold tracking-[-0.02em] mt-3 mb-8">Data sources</h1>
         <p className="text-lg text-black/70 leading-[1.6] mb-12">
@@ -51,8 +51,11 @@ export default function DataSources() {
           <p className="text-black/70 leading-[1.6] mb-3">
             Source: ESMA's interim MiCA register, published as weekly CSVs covering white papers, ART issuers, EMT issuers, authorised CASPs, and non-compliant CASPs. ESMA's transition to an integrated IT system is expected by mid-2026.
           </p>
+          <p className="text-black/70 leading-[1.6] mb-3">
+            For Title II white papers, ESMA notes that the listed white papers have not been reviewed or approved by an EU competent authority and that the offeror and/or issuer is solely responsible for the content. We therefore treat those entries as register-derived notifications, not as authorizations.
+          </p>
           <p className="text-black/70 leading-[1.6]">
-            In the PoC, data is hand-curated into pilot seed files via our internal CSV importer. In production, this importer runs automatically with "last synced" timestamps shown per entity.
+            In the PoC, data is hand-curated into pilot seed files via our internal CSV importer. In production, this importer runs automatically with "last synced" timestamps shown per entity and per white-paper notification.
           </p>
         </section>
 

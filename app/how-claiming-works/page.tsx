@@ -5,7 +5,7 @@ export default function HowClaimingWorks() {
   return (
     <>
       <SiteHeader />
-      <main className="max-w-[900px] mx-auto px-8 py-16">
+      <main id="main-content" className="max-w-[900px] mx-auto px-6 py-16 md:px-8">
         <p className="text-xs tracking-[0.15em] text-black/60 font-semibold">EXPLAINER</p>
         <h1 className="text-5xl font-semibold tracking-[-0.02em] mt-3 mb-8">
           How claiming a registry profile works
@@ -31,9 +31,9 @@ export default function HowClaimingWorks() {
           <h2 className="text-2xl font-semibold mb-6">The three-step flow</h2>
           <ol className="space-y-6">
             {[
-              ["KYB verification", "Bluprynt verifies the claimant's authority to represent the entity."],
-              ["Entity and wallet binding", "Signature challenge links the claimed wallet(s) to the verified entity."],
-              ["Profile becomes claimed", "The registry profile switches from unclaimed to claimed across every page that references the entity or its assets."],
+              ["Claim intake and KYB review", "Bluprynt verifies the claimant's authority to represent the entity and confirms the legal business information needed for KYI."],
+              ["KYI wallet binding", "A signature challenge links the claimed wallet(s) to the verified entity so Bluprynt can complete Know Your Issuer attestation."],
+              ["Profile becomes claimed and verified", "The registry profile switches from unclaimed to claimed, and once KYI is complete the page can show a stronger verified state across every reference to that entity or its assets."],
             ].map(([title, body], i) => (
               <li key={title} className="flex gap-6">
                 <span className="text-xs tracking-[0.15em] text-black/40 font-semibold mt-1 w-6 shrink-0">

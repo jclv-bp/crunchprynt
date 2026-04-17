@@ -57,4 +57,40 @@
   --color-ring: var(--ring);
 }
 
-html, body { background: var(--background); color: var(--foreground); }
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(0, 123, 255, 0.07), transparent 28%),
+    linear-gradient(180deg, #ffffff 0%, #fbfbfc 100%);
+  color: var(--foreground);
+  line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 1rem;
+  z-index: 50;
+  transform: translateY(-200%);
+  padding: 0.75rem 1rem;
+  background: var(--foreground);
+  color: var(--background);
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}

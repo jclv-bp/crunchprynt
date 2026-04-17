@@ -1,3 +1,3 @@
-ae_competentAuthority,ae_country,ae_name,ac_noticeDate,ae_summary
-MFSA,MT,Unlicensed Crypto Ltd,01/06/2025,Operating without authorisation
-CySEC,CY,Dodgy Exchange LLC,15/07/2025,Not registered as CASP despite active operations
+ae_competentAuthority,ae_homeMemberState,ae_lei_name,ae_lei,ae_lei_cou_code,ae_commercial_name,ae_website,ae_infrigment,ae_reason,ae_decision_date,ae_comments,ae_lastupdate
+MFSA,MT,Unlicensed Crypto Ltd,,,Unlicensed Crypto,https://unlicensed-crypto.example,No,Operating without authorisation,01/06/2025,,03/06/2025
+CySEC,CY,Dodgy Exchange LLC,,,Dodgy Exchange,https://dodgy-exchange.example,No,Not registered as CASP despite active operations,15/07/2025,,16/07/2025

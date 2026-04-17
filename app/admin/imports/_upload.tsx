@@ -62,6 +62,9 @@ export function UploadPanel() {
         <p className="text-xs text-black/40 mt-2">
           Download sample fixtures from <span className="font-mono">/fixtures/esma-*-sample.csv</span>
         </p>
+        <p className="text-xs text-black/50 mt-2 leading-[1.5]">
+          CASP files use ESMA&apos;s current `ac_serviceCode` and `ac_serviceCode_cou` columns. Title II white-paper files may describe notifications by an offeror and/or issuer rather than the issuer-of-record entity, so unmatched rows can be reviewed and assigned before commit.
+        </p>
       </div>
 
       {errors && errors.length > 0 && (

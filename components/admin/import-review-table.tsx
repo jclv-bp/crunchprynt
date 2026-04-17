@@ -15,7 +15,7 @@ export function ImportReviewTable({
       <table className="w-full bg-white border border-black/10">
         <thead>
           <tr className="border-b border-black/5">
-            {["ACCEPT", "MATCH", "LEGAL NAME", "LEI", "JURISDICTION", "LICENSE TYPE", "FIELD DIFFS"].map(h => (
+            {["ACCEPT", "MATCH", "LEGAL NAME", "LEI", "JURISDICTION", "GROUP LOGIC", "RECORD TYPE", "FIELD DIFFS"].map(h => (
               <th key={h} className="text-left px-4 py-3 text-xs tracking-[0.15em] text-black/60 font-semibold">{h}</th>
             ))}
           </tr>
@@ -36,6 +36,10 @@ export function ImportReviewTable({
               <td className="px-4 py-3 text-sm">{d.entityIncoming?.legalName ?? <em className="text-black/40">n/a</em>}</td>
               <td className="px-4 py-3 text-xs font-mono text-black/60">{d.entityIncoming?.lei ?? "—"}</td>
               <td className="px-4 py-3 text-sm">{d.entityIncoming?.jurisdictionCountry ?? "—"}</td>
+              <td className="px-4 py-3 text-xs text-black/60">
+                <div className="font-semibold text-black/75">{d.groupSuggestion.displayName}</div>
+                <div className="mt-1">{d.groupSuggestion.reason}</div>
+              </td>
               <td className="px-4 py-3 text-sm">{d.licenseIncoming.licenseType}</td>
               <td className="px-4 py-3 text-xs text-black/60">
                 {d.fieldDiffs.length === 0 ? "—" : d.fieldDiffs.map(f => (

@@ -14,7 +14,7 @@ const esmaDate = z
   .optional()
   .default("")
   .transform((raw) => {
-    const s = raw.trim();
+    const s = raw.replace(/\u00a0/g, " ").trim();
     if (!s || /^n\/?a$/i.test(s)) return null;
     const dmy = s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
     if (dmy) {
@@ -30,6 +30,22 @@ const esmaDate = z
 // the UI / reconciliation handles nullable dates gracefully.
 const requiredEsmaDate = esmaDate;
 
+const cleanedText = z
+  .string()
+  .optional()
+  .default("")
+  .transform((raw) => raw.replace(/\u00a0/g, " ").trim());
+
+const optionalCountryCode = cleanedText.transform((value) => {
+  const normalized = value.toUpperCase();
+  return /^[A-Z]{2}$/.test(normalized) ? normalized : "";
+});
+
+const optionalLei = cleanedText.transform((value) => {
+  const normalized = value.toUpperCase();
+  return /^[A-Z0-9]{20}$/.test(normalized) ? normalized : "";
+});
+
 // Comma-joined list → string[]; empty/missing → [].
 const commaList = z
   .string()
@@ -37,11 +53,22 @@ const commaList = z
   .default("")
   .transform((s) => (s ? s.split(",").map((x) => x.trim()).filter(Boolean) : []));
 
+const pipeList = z
+  .string()
+  .optional()
+  .default("")
+  .transform((s) =>
+    s
+      .split("|")
+      .map((x) => x.trim())
+      .filter(Boolean),
+  );
+
 const yesNo = z
   .string()
   .optional()
   .default("")
-  .transform((s) => /^y(es)?$/i.test(s.trim()));
+  .transform((s) => /^y(es)?$/i.test(s.replace(/\u00a0/g, " ").trim()));
 
 // ============================================================================
 // EMT + white paper combined register (file: EMTWP.csv)
@@ -50,10 +77,10 @@ const yesNo = z
 // ============================================================================
 const emt = z.object({
   ae_competentAuthority: z.string().min(1),
-  ae_homeMemberState: z.string().length(2),
+  ae_homeMemberState: optionalCountryCode,
   ae_lei_name: z.string().min(1),
-  ae_lei: z.string().length(20),
-  ae_lei_cou_code: z.string().optional().default(""),
+  ae_lei: optionalLei,
+  ae_lei_cou_code: optionalCountryCode,
   ae_commercial_name: z.string().optional().default(""),
   ae_address: z.string().optional().default(""),
   ae_website: z.string().optional().default(""),
@@ -70,29 +97,46 @@ const emt = z.object({
   wp_lastupdate: esmaDate,
 });
 
-// ART — similar structure to EMT. Real schema unverified; column names mirror
-// ESMA's ART register as observed in public samples. If a real ART CSV surfaces
-// with different columns, update this shape.
+// ART — ESMA's current CSV shape is close to EMT, including address, end-date,
+// white-paper metadata, and a credit-institution flag. We keep optional fields
+// permissive because the register is still in an interim state.
 const art = z.object({
   ae_competentAuthority: z.string().min(1),
-  ae_homeMemberState: z.string().length(2),
+  ae_homeMemberState: optionalCountryCode,
   ae_lei_name: z.string().min(1),
-  ae_lei: z.string().length(20),
+  ae_lei: optionalLei,
+  ae_lei_cou_code: optionalCountryCode,
   ae_commercial_name: z.string().optional().default(""),
+  ae_address: z.string().optional().default(""),
   ae_website: z.string().optional().default(""),
   ac_authorisationNotificationDate: requiredEsmaDate,
+  ac_authorisationEndDate: esmaDate,
+  ae_credit_institution: yesNo,
   wp_url: z.string().optional().default(""),
+  wp_authorisationNotificationDate: esmaDate,
+  wp_url_cou: z.string().optional().default(""),
+  wp_comments: z.string().optional().default(""),
+  wp_lastupdate: esmaDate,
 });
 
 // Authorised CASPs (file: CASPs.csv). Column names are ESMA-prefixed similar to
 // EMT. Real schema unverified in this PoC — kept as best-effort.
 const caspAuthorized = z.object({
   ae_competentAuthority: z.string().min(1),
-  ae_homeMemberState: z.string().length(2),
+  ae_homeMemberState: optionalCountryCode,
   ae_lei_name: z.string().min(1),
-  ae_lei: z.string().length(20),
+  ae_lei: optionalLei,
+  ae_lei_cou_code: optionalCountryCode,
   ae_commercial_name: z.string().optional().default(""),
+  ae_address: z.string().optional().default(""),
+  ae_website: z.string().optional().default(""),
+  ae_website_platform: z.string().optional().default(""),
   ac_authorisationNotificationDate: requiredEsmaDate,
+  ac_authorisationEndDate: esmaDate,
+  ac_serviceCode: pipeList,
+  ac_serviceCode_cou: pipeList,
+  ac_comments: z.string().optional().default(""),
+  ac_lastupdate: esmaDate,
   ae_services_authorised: commaList,
   ae_passporting: commaList,
 });
@@ -100,20 +144,28 @@ const caspAuthorized = z.object({
 // Non-compliant CASPs (file: NC_CASPs.csv). Real schema unverified.
 const caspNonCompliant = z.object({
   ae_competentAuthority: z.string().min(1),
-  ae_country: z.string().length(2),
-  ae_name: z.string().min(1),
-  ac_noticeDate: requiredEsmaDate,
-  ae_summary: z.string().optional().default(""),
+  ae_homeMemberState: optionalCountryCode,
+  ae_lei_name: z.string().min(1),
+  ae_lei: optionalLei,
+  ae_lei_cou_code: optionalCountryCode,
+  ae_commercial_name: z.string().optional().default(""),
+  ae_website: z.string().optional().default(""),
+  ae_infrigment: z.string().optional().default(""),
+  ae_reason: z.string().optional().default(""),
+  ae_decision_date: requiredEsmaDate,
+  ae_comments: z.string().optional().default(""),
+  ae_lastupdate: esmaDate,
 });
 
 // Non-ART/EMT white papers (file: WP.csv). Real schema unverified.
 const whitepapers = z.object({
   ae_competentAuthority: z.string().min(1),
-  ae_homeMemberState: z.string().length(2),
+  ae_homeMemberState: optionalCountryCode,
   ae_lei_name: z.string().min(1),
-  ae_lei: z.string().length(20),
+  ae_lei: optionalLei,
+  ae_lei_cou_code: optionalCountryCode,
   ae_commercial_name: z.string().optional().default(""),
-  wp_url: z.string().min(1),
+  wp_url: z.string().optional().default(""),
   wp_authorisationNotificationDate: requiredEsmaDate,
   wp_comments: z.string().optional().default(""),
 });

@@ -1,0 +1,20 @@
+CREATE TABLE "ClaimRequest" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "entityId" TEXT NOT NULL,
+    "assetId" TEXT,
+    "claimantName" TEXT NOT NULL,
+    "claimantEmail" TEXT NOT NULL,
+    "organization" TEXT NOT NULL,
+    "role" TEXT NOT NULL,
+    "authorityBasis" TEXT NOT NULL,
+    "website" TEXT,
+    "walletAddresses" TEXT,
+    "supportingLinks" TEXT,
+    "notes" TEXT,
+    "status" TEXT NOT NULL DEFAULT 'submitted',
+    "adminNotes" TEXT,
+    "submittedAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "reviewedAt" DATETIME,
+    CONSTRAINT "ClaimRequest_entityId_fkey" FOREIGN KEY ("entityId") REFERENCES "Entity" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    CONSTRAINT "ClaimRequest_assetId_fkey" FOREIGN KEY ("assetId") REFERENCES "Asset" ("id") ON DELETE SET NULL ON UPDATE CASCADE
+);

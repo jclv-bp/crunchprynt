@@ -39,6 +39,9 @@ export default async function ImportsPage({ searchParams }: { searchParams: Prom
         <p className="text-black/60 mb-8">
           File: <span className="font-mono">{p.fileName}</span> · Type: <span className="font-mono">{p.esmaFileType}</span> · Reviewer: {p.reviewer}
         </p>
+        <p className="mb-6 max-w-3xl text-sm leading-[1.6] text-black/60">
+          New entities will now follow upload-derived group logic first: existing groups are matched by website or name similarity, then new groups are created from commercial names where possible, and only true edge cases fall back to the unassigned intake bucket.
+        </p>
         <ImportReview pendingId={p.id} diffs={diffs} />
       </>
     );

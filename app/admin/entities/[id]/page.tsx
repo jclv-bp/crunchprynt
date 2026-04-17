@@ -18,7 +18,12 @@ export default async function EditEntityPage({ params }: { params: Promise<{ id:
   return (
     <>
       <div className="flex items-start justify-between mb-8">
-        <h1 className="text-3xl font-semibold tracking-[-0.02em]">Edit entity</h1>
+        <div>
+          <h1 className="text-3xl font-semibold tracking-[-0.02em]">Edit entity</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-[1.6] text-black/60">
+            Use this page to build a full public issuer profile, connect it to imported regulator records when available, and control whether the page is claimable, in claim review, or already claimed.
+          </p>
+        </div>
         <form action={delEntity as any}>
           <button type="submit" className="bg-destructive text-white px-8 py-3 text-sm tracking-[0.15em] font-semibold hover:bg-destructive/90 transition-colors">
             DELETE ENTITY
@@ -29,9 +34,9 @@ export default async function EditEntityPage({ params }: { params: Promise<{ id:
       <EntityForm initial={{ ...entity }} groups={groups} />
 
       <section className="mt-12">
-        <h2 className="text-xs tracking-[0.15em] text-black/60 font-semibold mb-4">EXISTING LICENSES</h2>
+        <h2 className="text-xs tracking-[0.15em] text-black/60 font-semibold mb-4">EXISTING REGULATORY RECORDS</h2>
         {entity.licenses.length === 0 ? (
-          <p className="text-sm text-black/60">No licenses recorded.</p>
+          <p className="text-sm text-black/60">No regulatory records recorded.</p>
         ) : (
           <div className="space-y-4">
             {entity.licenses.map(l => {
@@ -46,6 +51,7 @@ export default async function EditEntityPage({ params }: { params: Promise<{ id:
                     licenseReference={l.licenseReference}
                     permittedActivities={l.permittedActivities ? JSON.parse(l.permittedActivities) : []}
                     passporting={l.passporting ? JSON.parse(l.passporting) : []}
+                    documentPath={l.documentPath}
                     sourceRetrievedAt={l.sourceRetrievedAt}
                     reviewerName={l.reviewerName}
                     reviewerVerifiedAt={l.reviewerVerifiedAt}
@@ -63,7 +69,7 @@ export default async function EditEntityPage({ params }: { params: Promise<{ id:
       </section>
 
       <section className="mt-12">
-        <h2 className="text-xs tracking-[0.15em] text-black/60 font-semibold mb-4">ADD LICENSE</h2>
+        <h2 className="text-xs tracking-[0.15em] text-black/60 font-semibold mb-4">ADD REGULATORY RECORD</h2>
         <LicenseEditor entityId={id} />
       </section>
     </>

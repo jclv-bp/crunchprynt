@@ -27,7 +27,7 @@ export default async function AdminEntities() {
         <table className="w-full bg-white border border-black/10">
           <thead>
             <tr className="border-b border-black/5">
-              {["LEGAL NAME", "LEI", "JURISDICTION", "GROUP", "LICENSES", ""].map(h => (
+              {["LEGAL NAME", "LEI", "JURISDICTION", "GROUP", "PROFILE", "LICENSES", ""].map(h => (
                 <th
                   key={h}
                   className="text-left px-6 py-4 text-xs tracking-[0.15em] text-black/60 font-semibold"
@@ -40,7 +40,7 @@ export default async function AdminEntities() {
           <tbody>
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-10 text-center text-sm text-black/40">
+                <td colSpan={7} className="px-6 py-10 text-center text-sm text-black/40">
                   No entities yet.
                 </td>
               </tr>
@@ -54,6 +54,12 @@ export default async function AdminEntities() {
                     {r.jurisdictionSubdivision ? ` (${r.jurisdictionSubdivision})` : ""}
                   </td>
                   <td className="px-6 py-4 text-sm">{r.group.displayName}</td>
+                  <td className="px-6 py-4 text-xs">
+                    <div className="space-y-1">
+                      <div className="font-semibold tracking-[0.12em] text-black/60">{r.verificationStatus}</div>
+                      <div className="text-black/45">{r.claimStatus}</div>
+                    </div>
+                  </td>
                   <td className="px-6 py-4 text-sm">{r._count.licenses}</td>
                   <td className="px-6 py-4">
                     <Link href={`/admin/entities/${r.id}`} className="text-accent-blue text-sm hover:underline">

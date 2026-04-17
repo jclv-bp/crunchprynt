@@ -25,16 +25,23 @@ model Entity {
   slug                    String             @unique
   legalName               String
   lei                     String?            @unique
+  website                 String?
+  profileSummary          String?
   jurisdictionCountry     String
   jurisdictionSubdivision String?
   registrationNumber      String?
   groupId                 String
   group                   Group              @relation(fields: [groupId], references: [id])
   status                  String             @default("active")
+  verificationStatus      String             @default("imported")
+  claimStatus             String             @default("claimable")
+  claimPageNote           String?
+  kyiReviewedAt           DateTime?
   coverageLimitationNote  String?
   licenses                License[]
   controlledWallets       ControlledWallet[]
   issuedAssets            Asset[]
+  claimRequests           ClaimRequest[]
   slugAliases             SlugAlias[]        @relation("EntityAliases")
   createdAt               DateTime           @default(now())
   updatedAt               DateTime           @updatedAt
@@ -89,6 +96,7 @@ model Asset {
   linkedWhitePaper   License? @relation("AssetWhitePaper", fields: [linkedWhitePaperId], references: [id])
   relatedGroupId     String?
   attestationRef     String?
+  claimRequests      ClaimRequest[]
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
 
@@ -124,4 +132,25 @@ model PendingImport {
   diffsJson    String
   reviewer     String
   createdAt    DateTime @default(now())
+}
+
+model ClaimRequest {
+  id               String    @id @default(cuid())
+  entityId         String
+  entity           Entity    @relation(fields: [entityId], references: [id])
+  assetId          String?
+  asset            Asset?    @relation(fields: [assetId], references: [id])
+  claimantName     String
+  claimantEmail    String
+  organization     String
+  role             String
+  authorityBasis   String
+  website          String?
+  walletAddresses  String?
+  supportingLinks  String?
+  notes            String?
+  status           String    @default("submitted")
+  adminNotes       String?
+  submittedAt      DateTime  @default(now())
+  reviewedAt       DateTime?
 }

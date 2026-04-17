@@ -99,7 +99,7 @@ export function LicenseEditor({ entityId }: { entityId: string }) {
     }
   }
 
-  return (
+    return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <form onSubmit={onSubmit} className="bg-white border border-black/10 p-8">
@@ -116,6 +116,9 @@ export function LicenseEditor({ entityId }: { entityId: string }) {
               </button>
             ))}
           </div>
+          <p className="mb-6 text-sm leading-[1.6] text-black/65">
+            Use MiCA register records for authorizations, CASP permissions, and Title II white-paper notifications. White-paper notifications may relate to the offeror and/or issuer, not only the issuer-of-record entity.
+          </p>
 
           {state.source === "esma_mica_register" && <LicenseSubformMica state={state} update={update} />}
           {state.source === "bma_manual" && <LicenseSubformBma state={state} update={update} />}
@@ -124,7 +127,7 @@ export function LicenseEditor({ entityId }: { entityId: string }) {
           {error && <p className="text-sm text-destructive mb-4">{error}</p>}
           <button type="submit" disabled={saving}
             className="bg-accent-blue text-white px-8 py-3 text-sm tracking-[0.15em] font-semibold hover:bg-accent-blue/90 disabled:opacity-50 transition-colors">
-            {saving ? "SAVING…" : "ADD LICENSE"}
+            {saving ? "SAVING…" : "ADD RECORD"}
           </button>
         </form>
         <div>
@@ -137,6 +140,7 @@ export function LicenseEditor({ entityId }: { entityId: string }) {
             licenseReference={state.licenseReference || null}
             permittedActivities={state.permittedActivities}
             passporting={state.passporting}
+            documentPath={state.documentPath || null}
             sourceRetrievedAt={new Date(state.sourceRetrievedAt || new Date())}
             reviewerName={state.reviewerName || null}
             reviewerVerifiedAt={state.reviewerVerifiedAt ? new Date(state.reviewerVerifiedAt) : null}
